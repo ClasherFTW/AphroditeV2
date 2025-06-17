@@ -439,3 +439,4 @@ function AuthenticatedApp() {
 export default function AphroditeDashboard() {
   return <AuthenticatedApp />
 }
+ 
