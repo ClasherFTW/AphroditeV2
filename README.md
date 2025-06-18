@@ -1,6 +1,6 @@
 # 🎮 Aphrodite – Your Ultimate Gaming Assistant
 
-**Nom Nom** is an advanced AI-powered gaming assistant built with **Next.js**, **TypeScript**, and **TailwindCSS**. Designed to elevate your gaming experience, it comes packed with rich features for players, coaches, and esports teams.
+**Aphrodite** is an advanced AI-powered gaming assistant built with **Next.js**, **TypeScript**, and **TailwindCSS**. Designed to elevate your gaming experience, it comes packed with rich features for players, coaches, and esports teams.
 
 ---
 
