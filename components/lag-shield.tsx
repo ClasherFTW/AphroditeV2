@@ -32,6 +32,8 @@ import {
   TargetIcon,
   TrophyIcon,
   StarIcon,
+  InfoIcon,
+  BugIcon,
 } from "lucide-react"
 import { PerformanceMonitor, type SystemMetrics } from "@/lib/performance-monitor"
 import { MatchRecommendationEngine, type MatchRecommendations } from "@/lib/match-recommendation-engine"
@@ -54,6 +56,8 @@ export default function LagShield() {
   const [lastOptimized, setLastOptimized] = useState<Date | null>(null)
   const [recommendations, setRecommendations] = useState<MatchRecommendations | null>(null)
   const [loadingRecommendations, setLoadingRecommendations] = useState(false)
+  const [debugInfo, setDebugInfo] = useState<any>(null)
+  const [showDebugPanel, setShowDebugPanel] = useState(false)
 
   const [metrics, setMetrics] = useState<SystemMetrics>({
     cpu: {
@@ -61,17 +65,19 @@ export default function LagShield() {
       temperature: 65,
       cores: 8,
       frequency: 3.2,
+      model: "Loading...",
     },
     memory: {
       usage: 62,
-      available: 16384,
-      used: 10240,
+      available: 16,
+      used: 10,
     },
     gpu: {
       usage: 78,
       temperature: 72,
-      memory: 8192,
-      memoryUsed: 6144,
+      memory: 8,
+      memoryUsed: 6,
+      model: "Loading...",
     },
     disk: {
       usage: 34,
@@ -84,9 +90,11 @@ export default function LagShield() {
       packetLoss: 0.1,
       downloadSpeed: 150,
       uploadSpeed: 50,
+      latencyGrade: "Loading...",
     },
     fps: 144,
     frameTime: 6.9,
+    source: "loading",
   })
 
   const [optimizations] = useState<OptimizationItem[]>([
@@ -137,43 +145,48 @@ export default function LagShield() {
     },
   ])
 
-  // Real-time performance monitoring
+  // Enhanced real-time performance monitoring with debugging
   useEffect(() => {
     if (!isMonitoring) return
 
-    const interval = setInterval(async () => {
+    const fetchMetrics = async () => {
       try {
+        console.log("🔄 Fetching metrics in component...")
         const newMetrics = await PerformanceMonitor.getCurrentMetrics()
+
+        // Update debug info
+        setDebugInfo({
+          lastFetch: new Date().toISOString(),
+          source: newMetrics.source,
+          libraryStatus: newMetrics.libraryStatus,
+          reason: newMetrics.reason,
+          error: newMetrics.error,
+          dataReceived: !!newMetrics,
+        })
+
         setMetrics(newMetrics)
 
         // Calculate performance score
         const score = PerformanceMonitor.calculatePerformanceScore(newMetrics)
         setPerformanceScore(score)
+
+        console.log(`📊 Metrics updated - Source: ${newMetrics.source}, Score: ${score}`)
       } catch (error) {
-        console.error("Error fetching performance metrics:", error)
-        // Fallback to simulated data
-        setMetrics((prev) => ({
-          ...prev,
-          cpu: {
-            ...prev.cpu,
-            usage: Math.max(20, Math.min(90, prev.cpu.usage + (Math.random() - 0.5) * 15)),
-          },
-          memory: {
-            ...prev.memory,
-            usage: Math.max(30, Math.min(95, prev.memory.usage + (Math.random() - 0.5) * 10)),
-          },
-          gpu: {
-            ...prev.gpu,
-            usage: Math.max(40, Math.min(100, prev.gpu.usage + (Math.random() - 0.5) * 20)),
-          },
-          network: {
-            ...prev.network,
-            ping: Math.max(15, prev.network.ping + (Math.random() - 0.5) * 10),
-          },
-          fps: Math.max(60, Math.min(165, prev.fps + (Math.random() - 0.5) * 20)),
-        }))
+        console.error("❌ Error in component metrics fetch:", error)
+        setDebugInfo({
+          lastFetch: new Date().toISOString(),
+          source: "error",
+          error: error instanceof Error ? error.message : "Unknown error",
+          dataReceived: false,
+        })
       }
-    }, 2000)
+    }
+
+    // Initial fetch
+    fetchMetrics()
+
+    // Set up interval for continuous monitoring
+    const interval = setInterval(fetchMetrics, 2000)
 
     return () => clearInterval(interval)
   }, [isMonitoring])
@@ -186,7 +199,6 @@ export default function LagShield() {
   const loadMatchRecommendations = async () => {
     setLoadingRecommendations(true)
     try {
-      // Simulate user ID - in real app, get from auth context
       const userId = "demo-user-123"
       const recs = await MatchRecommendationEngine.generateRecommendations(userId)
       setRecommendations(recs)
@@ -202,7 +214,6 @@ export default function LagShield() {
     setOptimizationProgress(0)
 
     try {
-      // Simulate optimization process
       const steps = [
         "Analyzing system performance...",
         "Closing unnecessary background processes...",
@@ -217,11 +228,10 @@ export default function LagShield() {
         setOptimizationProgress(((i + 1) / steps.length) * 100)
       }
 
-      // Apply optimizations
       await PerformanceMonitor.applyOptimizations()
       setLastOptimized(new Date())
 
-      // Refresh metrics
+      // Force refresh metrics
       const newMetrics = await PerformanceMonitor.getCurrentMetrics()
       setMetrics(newMetrics)
       setPerformanceScore(PerformanceMonitor.calculatePerformanceScore(newMetrics))
@@ -237,6 +247,19 @@ export default function LagShield() {
     if (score >= 80) return "text-green-400"
     if (score >= 60) return "text-yellow-400"
     return "text-red-400"
+  }
+
+  const getSourceBadgeColor = (source: string) => {
+    switch (source) {
+      case "real":
+        return "border-green-400 text-green-300 bg-green-400/10"
+      case "simulated":
+        return "border-yellow-400 text-yellow-300 bg-yellow-400/10"
+      case "loading":
+        return "border-blue-400 text-blue-300 bg-blue-400/10"
+      default:
+        return "border-red-400 text-red-300 bg-red-400/10"
+    }
   }
 
   const getImpactColor = (impact: string) => {
@@ -283,6 +306,16 @@ export default function LagShield() {
           <Badge variant="outline" className={`${getScoreColor(performanceScore)} border-current`}>
             Performance Score: {performanceScore}
           </Badge>
+          <Badge variant="outline" className={getSourceBadgeColor(metrics.source || "unknown")}>
+            {metrics.source === "real" && "🟢 Live Data"}
+            {metrics.source === "simulated" && "🟡 Simulated"}
+            {metrics.source === "loading" && "🔵 Loading..."}
+            {!metrics.source && "🔴 Error"}
+          </Badge>
+          <Button onClick={() => setShowDebugPanel(!showDebugPanel)} variant="outline" size="sm" className="text-xs">
+            <BugIcon className="h-3 w-3 mr-1" />
+            Debug
+          </Button>
           <Button
             onClick={() => setIsMonitoring(!isMonitoring)}
             variant={isMonitoring ? "default" : "outline"}
@@ -293,6 +326,52 @@ export default function LagShield() {
           </Button>
         </div>
       </div>
+
+      {/* Debug Panel */}
+      {showDebugPanel && debugInfo && (
+        <Card className="bg-black/40 border-blue-400/30 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-blue-400 flex items-center">
+              <BugIcon className="h-5 w-5 mr-2" />
+              Debug Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h4 className="font-semibold text-white mb-2">Data Source</h4>
+                <p className="text-white/80">Source: {debugInfo.source}</p>
+                <p className="text-white/80">Last Fetch: {new Date(debugInfo.lastFetch).toLocaleTimeString()}</p>
+                <p className="text-white/80">Data Received: {debugInfo.dataReceived ? "✅ Yes" : "❌ No"}</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-2">Library Status</h4>
+                {debugInfo.libraryStatus && (
+                  <div className="space-y-1">
+                    <p className="text-white/80">
+                      systeminformation: {debugInfo.libraryStatus.systeminformation ? "✅" : "❌"}
+                    </p>
+                    <p className="text-white/80">node-os-utils: {debugInfo.libraryStatus.nodeOsUtils ? "✅" : "❌"}</p>
+                    <p className="text-white/80">ping: {debugInfo.libraryStatus.ping ? "✅" : "❌"}</p>
+                  </div>
+                )}
+              </div>
+              {debugInfo.reason && (
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-white mb-2">Reason</h4>
+                  <p className="text-yellow-400">{debugInfo.reason}</p>
+                </div>
+              )}
+              {debugInfo.error && (
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-white mb-2">Error Details</h4>
+                  <p className="text-red-400 text-xs font-mono bg-red-400/10 p-2 rounded">{debugInfo.error}</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Tabs defaultValue="dashboard" className="space-y-6">
         <TabsList className="bg-black/20 backdrop-blur-sm">
@@ -378,7 +457,10 @@ export default function LagShield() {
                 <div className="text-center">
                   <div className="text-2xl font-bold text-green-400">{Math.round(metrics.fps)}</div>
                   <div className="text-sm text-white/60">Current FPS</div>
-                  <div className="text-xs text-white/40">{metrics.frameTime.toFixed(1)}ms frame time</div>
+                  <div className="text-xs text-white/40">
+                    {typeof metrics.frameTime === "string" ? metrics.frameTime : metrics.frameTime.toFixed(1)}ms frame
+                    time
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-400">{Math.round(metrics.network.ping)}ms</div>
@@ -389,6 +471,62 @@ export default function LagShield() {
                   <div className="text-2xl font-bold text-purple-400">{Math.round(metrics.cpu.temperature)}°C</div>
                   <div className="text-sm text-white/60">CPU Temp</div>
                   <div className="text-xs text-white/40">{metrics.cpu.frequency.toFixed(1)} GHz</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* System Information */}
+          <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center">
+                <CpuIcon className="h-5 w-5 mr-2" />
+                System Information
+              </CardTitle>
+              <CardDescription className="text-white/60 flex items-center justify-between">
+                <span>Hardware details and specifications</span>
+                <Badge variant="outline" className={getSourceBadgeColor(metrics.source || "unknown")}>
+                  {metrics.source === "real" && "🟢 Live Data"}
+                  {metrics.source === "simulated" && "🟡 Simulated Data"}
+                  {metrics.source === "loading" && "🔵 Loading..."}
+                  {!metrics.source && "🔴 Error"}
+                </Badge>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-white mb-2">Processor</h4>
+                    <p className="text-sm text-white/80">{metrics.cpu.model || "Unknown CPU"}</p>
+                    <p className="text-xs text-white/60">
+                      {metrics.cpu.cores} cores @ {metrics.cpu.frequency.toFixed(1)} GHz
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-2">Memory</h4>
+                    <p className="text-sm text-white/80">{metrics.memory.available} GB Total</p>
+                    <p className="text-xs text-white/60">
+                      {metrics.memory.used} GB used ({metrics.memory.usage}%)
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-white mb-2">Graphics</h4>
+                    <p className="text-sm text-white/80">{metrics.gpu.model || "Unknown GPU"}</p>
+                    <p className="text-xs text-white/60">
+                      {metrics.gpu.memory} GB VRAM ({metrics.gpu.memoryUsed} GB used)
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white mb-2">Network</h4>
+                    <p className="text-sm text-white/80">Latency: {metrics.network.latencyGrade || "Unknown"}</p>
+                    <p className="text-xs text-white/60">
+                      {Math.round(metrics.network.downloadSpeed)} Mbps down / {Math.round(metrics.network.uploadSpeed)}{" "}
+                      Mbps up
+                    </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -418,7 +556,7 @@ export default function LagShield() {
                     <div className="text-lg font-bold text-white">{Math.round(metrics.memory.usage)}%</div>
                     <div className="text-xs text-white/60">RAM Usage</div>
                     <div className="text-xs text-white/40">
-                      {(metrics.memory.used / 1024).toFixed(1)}GB / {(metrics.memory.available / 1024).toFixed(1)}GB
+                      {metrics.memory.used}GB / {metrics.memory.available}GB
                     </div>
                   </div>
                   <Progress value={metrics.memory.usage} className="w-16 h-2" />
@@ -434,7 +572,7 @@ export default function LagShield() {
                     <div className="text-lg font-bold text-white">{Math.round(metrics.gpu.usage)}%</div>
                     <div className="text-xs text-white/60">GPU Usage</div>
                     <div className="text-xs text-white/40">
-                      {(metrics.gpu.memoryUsed / 1024).toFixed(1)}GB / {(metrics.gpu.memory / 1024).toFixed(1)}GB
+                      {metrics.gpu.memoryUsed}GB / {metrics.gpu.memory}GB
                     </div>
                   </div>
                   <Progress value={metrics.gpu.usage} className="w-16 h-2" />
@@ -477,6 +615,26 @@ export default function LagShield() {
               </AlertDescription>
             </Alert>
           )}
+
+          {metrics.source === "simulated" && (
+            <Alert className="border-blue-400/30 bg-blue-400/10">
+              <InfoIcon className="h-4 w-4" />
+              <AlertDescription className="text-blue-300">
+                Using simulated data. Install system monitoring libraries (systeminformation, node-os-utils, ping) for
+                real-time metrics.
+                {debugInfo?.reason && <div className="mt-2 text-xs">Reason: {debugInfo.reason}</div>}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {metrics.source === "loading" && (
+            <Alert className="border-blue-400/30 bg-blue-400/10">
+              <RefreshCwIcon className="h-4 w-4 animate-spin" />
+              <AlertDescription className="text-blue-300">
+                Loading system metrics... Please wait while we gather real-time data.
+              </AlertDescription>
+            </Alert>
+          )}
         </TabsContent>
 
         <TabsContent value="recommendations" className="space-y-6">
@@ -484,7 +642,7 @@ export default function LagShield() {
             <CardHeader>
               <CardTitle className="text-white flex items-center justify-between">
                 <span className="flex items-center">
-                  <TargetIcon className="h-5 w-5 mr-2" />
+                  <TargetIcon className="h-5 w-5 mr-2 text-green-400" />
                   AI Match Recommendations
                 </span>
                 <Button onClick={loadMatchRecommendations} disabled={loadingRecommendations} variant="outline">
@@ -643,24 +801,17 @@ export default function LagShield() {
                           <Badge variant="outline" className={getImpactColor(opt.impact)}>
                             {opt.impact} impact
                           </Badge>
-                          <Badge variant="outline" className="border-blue-400 text-blue-300">
+                          <Badge variant="outline" className="border-gray-400 text-gray-300">
                             {opt.category}
                           </Badge>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <div className="flex items-center space-x-2">
-                        <Switch checked={opt.autoApply} />
-                        <Label className="text-white/80 text-sm">Auto</Label>
-                      </div>
-                      <Button
-                        size="sm"
-                        disabled={opt.status === "applied"}
-                        variant={opt.status === "applied" ? "outline" : "default"}
-                      >
-                        {opt.status === "applied" ? "Applied" : "Apply"}
-                      </Button>
+                    <div className="flex items-center space-x-2">
+                      <Label htmlFor={`auto-${opt.id}`} className="text-sm text-white/60">
+                        Auto
+                      </Label>
+                      <Switch id={`auto-${opt.id}`} checked={opt.autoApply} />
                     </div>
                   </div>
                 </CardContent>
@@ -670,102 +821,70 @@ export default function LagShield() {
         </TabsContent>
 
         <TabsContent value="network" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-white">Network Performance</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80">Ping</span>
-                  <span className="text-blue-400 font-bold">{Math.round(metrics.network.ping)}ms</span>
+          <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-white">Network Performance</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400">{Math.round(metrics.network.ping)}ms</div>
+                  <div className="text-sm text-white/60">Ping</div>
+                  <Progress value={Math.max(0, 100 - metrics.network.ping)} className="mt-2" />
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80">Jitter</span>
-                  <span className="text-yellow-400 font-bold">{metrics.network.jitter.toFixed(1)}ms</span>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400">{metrics.network.jitter.toFixed(1)}ms</div>
+                  <div className="text-sm text-white/60">Jitter</div>
+                  <Progress value={Math.max(0, 100 - metrics.network.jitter * 10)} className="mt-2" />
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80">Packet Loss</span>
-                  <span className="text-red-400 font-bold">{metrics.network.packetLoss.toFixed(2)}%</span>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-400">{metrics.network.packetLoss.toFixed(1)}%</div>
+                  <div className="text-sm text-white/60">Packet Loss</div>
+                  <Progress value={Math.max(0, 100 - metrics.network.packetLoss * 50)} className="mt-2" />
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80">Download Speed</span>
-                  <span className="text-green-400 font-bold">{Math.round(metrics.network.downloadSpeed)} Mbps</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/80">Upload Speed</span>
-                  <span className="text-green-400 font-bold">{Math.round(metrics.network.uploadSpeed)} Mbps</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-white">Network Optimizations</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full justify-start" variant="outline">
-                  <NetworkIcon className="h-4 w-4 mr-2" />
-                  Optimize DNS Settings
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <WifiIcon className="h-4 w-4 mr-2" />
-                  Configure QoS
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <ZapIcon className="h-4 w-4 mr-2" />
-                  Reduce Network Latency
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="system" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-white">CPU</CardTitle>
+                <CardTitle className="text-white">CPU Performance</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-400">{Math.round(metrics.cpu.usage)}%</div>
-                  <Progress value={metrics.cpu.usage} className="mt-2" />
-                  <p className="text-xs text-white/60 mt-2">
-                    {metrics.cpu.cores} cores @ {metrics.cpu.frequency.toFixed(1)} GHz
-                  </p>
-                  <p className="text-xs text-white/60">Temp: {Math.round(metrics.cpu.temperature)}°C</p>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Usage</span>
+                    <span className="text-white">{Math.round(metrics.cpu.usage)}%</span>
+                  </div>
+                  <Progress value={metrics.cpu.usage} />
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Temperature</span>
+                    <span className="text-white">{Math.round(metrics.cpu.temperature)}°C</span>
+                  </div>
+                  <Progress value={(metrics.cpu.temperature / 100) * 100} />
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-white">Memory</CardTitle>
+                <CardTitle className="text-white">GPU Performance</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400">{Math.round(metrics.memory.usage)}%</div>
-                  <Progress value={metrics.memory.usage} className="mt-2" />
-                  <p className="text-xs text-white/60 mt-2">
-                    {(metrics.memory.used / 1024).toFixed(1)}GB / {(metrics.memory.available / 1024).toFixed(1)}GB
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-white">GPU</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-400">{Math.round(metrics.gpu.usage)}%</div>
-                  <Progress value={metrics.gpu.usage} className="mt-2" />
-                  <p className="text-xs text-white/60 mt-2">
-                    {(metrics.gpu.memoryUsed / 1024).toFixed(1)}GB / {(metrics.gpu.memory / 1024).toFixed(1)}GB
-                  </p>
-                  <p className="text-xs text-white/60">Temp: {Math.round(metrics.gpu.temperature)}°C</p>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Usage</span>
+                    <span className="text-white">{Math.round(metrics.gpu.usage)}%</span>
+                  </div>
+                  <Progress value={metrics.gpu.usage} />
+                  <div className="flex justify-between">
+                    <span className="text-white/60">Temperature</span>
+                    <span className="text-white">{Math.round(metrics.gpu.temperature)}°C</span>
+                  </div>
+                  <Progress value={(metrics.gpu.temperature / 100) * 100} />
                 </div>
               </CardContent>
             </Card>
@@ -775,46 +894,28 @@ export default function LagShield() {
         <TabsContent value="settings" className="space-y-6">
           <Card className="bg-black/20 border-white/10 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-white">Lag Shield Settings</CardTitle>
-              <CardDescription className="text-white/60">
-                Configure monitoring and optimization preferences
-              </CardDescription>
+              <CardTitle className="text-white">Monitoring Settings</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white/80">Auto-optimize on startup</Label>
-                  <p className="text-sm text-white/60">Automatically apply optimizations when Lag Shield starts</p>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="real-time" className="text-white">
+                    Real-time Monitoring
+                  </Label>
+                  <Switch id="real-time" checked={isMonitoring} onCheckedChange={setIsMonitoring} />
                 </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white/80">Real-time monitoring</Label>
-                  <p className="text-sm text-white/60">Continuously monitor system performance</p>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="notifications" className="text-white">
+                    Performance Notifications
+                  </Label>
+                  <Switch id="notifications" />
                 </div>
-                <Switch checked={isMonitoring} onCheckedChange={setIsMonitoring} />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white/80">Performance notifications</Label>
-                  <p className="text-sm text-white/60">Get alerts when performance drops</p>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="auto-optimize" className="text-white">
+                    Auto-optimize on Low Performance
+                  </Label>
+                  <Switch id="auto-optimize" />
                 </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white/80">AI recommendations</Label>
-                  <p className="text-sm text-white/60">Enable intelligent match recommendations</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label className="text-white/80">Game-specific profiles</Label>
-                  <p className="text-sm text-white/60">Use different settings for each game</p>
-                </div>
-                <Switch defaultChecked />
               </div>
             </CardContent>
           </Card>

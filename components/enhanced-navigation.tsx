@@ -35,7 +35,7 @@ import {
   Menu,
   X,
   Home,
-  Zap,
+  ZapIcon,
   ChevronDown,
 } from "lucide-react"
 
@@ -59,7 +59,7 @@ const navigationItems = [
   { id: "lagshield", label: "Lag Shield", icon: ShieldIcon, keywords: ["network", "ping", "connection"] },
   { id: "profile", label: "Profile", icon: UserIcon, keywords: ["account", "user", "personal"] },
   { id: "settings", label: "Settings", icon: Settings, keywords: ["preferences", "config", "options"] },
-  { id: "demo-generator", label: "Demo Generator", icon: Zap, keywords: ["demo", "test", "generate"] },
+  { id: "demo-generator", label: "Demo Generator", icon: ZapIcon, keywords: ["demo", "test", "generate"] },
   { id: "discord-bot", label: "Discord Bot", icon: BotIcon, keywords: ["discord", "bot", "notifications", "webhook"] },
 ]
 
