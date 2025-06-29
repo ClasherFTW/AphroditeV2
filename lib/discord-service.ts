@@ -47,6 +47,20 @@ interface TeammateRequest {
   userStats: UserStats
 }
 
+interface WatchPartyNotification {
+  partyId: string
+  title: string
+  hostUsername: string
+  hostAvatar?: string
+  description: string
+  streamUrl: string
+  maxParticipants: number
+  isPrivate: boolean
+  scheduledFor?: Date
+  tags: string[]
+  joinLink: string
+}
+
 export class DiscordService {
   // Using your webhook URL directly
   private static readonly WEBHOOK_URL =
@@ -61,6 +75,7 @@ export class DiscordService {
     teammate: 0xff1493, // Deep Pink
     challenge: 0x32cd32, // Lime Green
     leaderboard: 0x4169e1, // Royal Blue
+    watchparty: 0x8a2be2, // Blue Violet
   }
 
   // Validate and clean embed data
@@ -134,6 +149,128 @@ export class DiscordService {
     if (rankLower.includes("silver")) return "⚪"
     if (rankLower.includes("bronze")) return "🟫"
     return "🎮"
+  }
+
+  // Send watch party announcement with @everyone mention
+  static async sendWatchPartyAnnouncement(watchParty: WatchPartyNotification): Promise<void> {
+    try {
+      // Create the @everyone mention content
+      const mentionContent = `@everyone 🎬 **NEW WATCH PARTY STARTING!** 🎬\n\n**${watchParty.hostUsername}** has started "${watchParty.title}" - Join now for synchronized viewing!`
+
+      const embed: DiscordEmbed = {
+        title: `🎬 ${watchParty.title}`,
+        description: `**${watchParty.hostUsername}** has started an epic watch party! Join now for synchronized viewing and live chat with fellow gamers!`,
+        color: this.COLORS.watchparty,
+        author: {
+          name: `${watchParty.hostUsername} • Watch Party Host`,
+          icon_url: watchParty.hostAvatar,
+        },
+        fields: [
+          {
+            name: "🎯 Party Details",
+            value: `**Title:** ${watchParty.title}\n**Host:** ${watchParty.hostUsername}\n**Stream:** ${this.formatStreamUrl(watchParty.streamUrl)}`,
+            inline: true,
+          },
+          {
+            name: "👥 Capacity",
+            value: `**Max Participants:** ${watchParty.maxParticipants}\n**Privacy:** ${watchParty.isPrivate ? "🔒 Private" : "🌐 Public"}\n**Status:** 🟢 Live Now`,
+            inline: true,
+          },
+          {
+            name: "📝 Description",
+            value: watchParty.description || "Join us for an amazing viewing experience!",
+            inline: false,
+          },
+          {
+            name: "🏷️ Tags",
+            value: watchParty.tags.length > 0 ? watchParty.tags.map((tag) => `\`${tag}\``).join(" ") : "`general`",
+            inline: false,
+          },
+          {
+            name: "🚀 How to Join",
+            value: `**Click the link below to join instantly:**\n[🎬 **JOIN WATCH PARTY**](${watchParty.joinLink})\n\n**What you'll get:**\n• 🎥 Synchronized video playback\n• 💬 Live chat with participants\n• 👍 Real-time reactions\n• 🎮 Gaming community vibes`,
+            inline: false,
+          },
+        ],
+        footer: {
+          text: "Aphrodite Gaming Platform • Watch together, game together!",
+        },
+        timestamp: new Date().toISOString(),
+      }
+
+      // Add scheduled time if applicable
+      if (watchParty.scheduledFor) {
+        embed.fields?.push({
+          name: "⏰ Scheduled For",
+          value: `<t:${Math.floor(watchParty.scheduledFor.getTime() / 1000)}:F>`,
+          inline: true,
+        })
+      }
+
+      const validatedEmbed = this.validateEmbed(embed)
+
+      await this.sendWebhook({
+        content: mentionContent,
+        username: "Aphrodite Watch Party Bot",
+        avatar_url: "https://cdn.discordapp.com/emojis/🎬.png",
+        embeds: [validatedEmbed],
+      })
+
+      console.log(`✅ Discord: Watch party announcement sent for "${watchParty.title}" by ${watchParty.hostUsername}`)
+    } catch (error) {
+      console.error("❌ Discord: Failed to send watch party announcement:", error)
+      throw error
+    }
+  }
+
+  // Send watch party update (when someone joins)
+  static async sendWatchPartyUpdate(
+    partyTitle: string,
+    participantName: string,
+    currentParticipants: number,
+    maxParticipants: number,
+    joinLink: string,
+  ): Promise<void> {
+    try {
+      // Only send updates for significant milestones to avoid spam
+      const milestones = [5, 10, 25, 50, 75, 100]
+      if (!milestones.includes(currentParticipants)) return
+
+      const embed: DiscordEmbed = {
+        title: `🎉 Watch Party Milestone!`,
+        description: `**${partyTitle}** just reached **${currentParticipants} participants**! The party is getting epic!`,
+        color: this.COLORS.watchparty,
+        fields: [
+          {
+            name: "🎬 Party Status",
+            value: `**Participants:** ${currentParticipants}/${maxParticipants}\n**Latest Join:** ${participantName}\n**Status:** 🔥 Getting Hot!`,
+            inline: true,
+          },
+          {
+            name: "🚀 Join Now",
+            value: `[🎬 **JOIN THE PARTY**](${joinLink})\n\nDon't miss out on the fun!`,
+            inline: true,
+          },
+        ],
+        footer: {
+          text: "Aphrodite Gaming Platform • The more, the merrier!",
+        },
+        timestamp: new Date().toISOString(),
+      }
+
+      const validatedEmbed = this.validateEmbed(embed)
+
+      await this.sendWebhook({
+        username: "Aphrodite Watch Party Bot",
+        embeds: [validatedEmbed],
+      })
+
+      console.log(
+        `✅ Discord: Watch party milestone update sent for "${partyTitle}" (${currentParticipants} participants)`,
+      )
+    } catch (error) {
+      console.error("❌ Discord: Failed to send watch party update:", error)
+    }
   }
 
   // Send user-specific challenge completion message
@@ -477,6 +614,13 @@ export class DiscordService {
     if (rankLower.includes("diamond")) return "🎯 Immortal Rank"
     if (rankLower.includes("immortal")) return "🎯 Radiant Rank"
     return "🎯 Next Tier"
+  }
+
+  private static formatStreamUrl(url: string): string {
+    if (url.includes("twitch.tv")) return "🟣 Twitch Stream"
+    if (url.includes("youtube.com") || url.includes("youtu.be")) return "🔴 YouTube Stream"
+    if (url.includes("kick.com")) return "🟢 Kick Stream"
+    return "🎥 Custom Stream"
   }
 
   // Enhanced webhook sender with better error handling and status detection
