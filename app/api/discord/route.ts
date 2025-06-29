@@ -18,6 +18,32 @@ export async function POST(request: NextRequest) {
           timestamp: new Date().toISOString(),
         })
 
+      case "watch_party_announcement":
+        await DiscordService.sendWatchPartyAnnouncement({
+          partyId: data.partyId,
+          title: data.title,
+          hostUsername: data.hostUsername,
+          hostAvatar: data.hostAvatar,
+          description: data.description,
+          streamUrl: data.streamUrl,
+          maxParticipants: data.maxParticipants,
+          isPrivate: data.isPrivate,
+          scheduledFor: data.scheduledFor ? new Date(data.scheduledFor) : undefined,
+          tags: data.tags,
+          joinLink: data.joinLink,
+        })
+        break
+
+      case "watch_party_update":
+        await DiscordService.sendWatchPartyUpdate(
+          data.partyTitle,
+          data.participantName,
+          data.currentParticipants,
+          data.maxParticipants,
+          data.joinLink,
+        )
+        break
+
       case "user_challenge_completed":
         await DiscordService.sendUserChallengeCompletion(
           data.username,

@@ -3,15 +3,16 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { AuthProvider } from "@/components/auth-provider"
+import { AuthProvider } from "@/components/demo-auth-provider"
 import { GameStatsProvider } from "@/components/game-stats-provider"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Aphrodite - Gaming Assistant",
   description: "Your ultimate gaming companion for Valorant and CS:GO",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -24,7 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider defaultTheme="dark" storageKey="aphrodite-theme">
           <AuthProvider>
-            <GameStatsProvider>{children}</GameStatsProvider>
+            <GameStatsProvider>
+              {children}
+              <Toaster />
+            </GameStatsProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
