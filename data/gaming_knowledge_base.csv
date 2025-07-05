@@ -1,0 +1,536 @@
+category,subcategory,keywords,question_patterns,response,game_context,confidence_score,tags
+aim_training,crosshair_placement,"aim,crosshair,placement,head,level","how to improve crosshair placement,crosshair positioning tips,where to place crosshair","**Crosshair Placement Tips:**
+
+• Keep crosshair at head level at all times
+• Pre-aim common angles and corners
+• Adjust for different elevation levels
+• Practice crosshair placement in DM before ranked
+• Use the wall method: trace walls at head height
+• Watch pro player crosshair placement demos
+
+**Valorant Specific:**
+• Pre-aim default plant positions
+• Adjust for agent abilities (Sage wall, etc.)
+• Practice on Aim Lab crosshair placement scenarios
+
+**CS2 Specific:**
+• Learn common peek angles on each map
+• Practice pre-aiming with different weapons
+• Use workshop maps for crosshair training",both,0.95,"aim,crosshair,fundamentals"
+aim_training,sensitivity,"sensitivity,sens,dpi,edpi,mouse","what sensitivity should I use,best sensitivity settings,how to find right sens","**Finding Your Perfect Sensitivity:**
+
+• **eDPI Range:** 200-400 for most players
+• **Formula:** DPI × In-game sensitivity = eDPI
+• **Testing Method:**
+  1. Start with 300 eDPI
+  2. Adjust ±50 until comfortable
+  3. Stick with it for 2+ weeks
+  4. Fine-tune by ±10-20
+
+**Valorant Settings:**
+• Most pros use 240-320 eDPI
+• Raw Input: ON
+• Mouse Acceleration: OFF
+
+**CS2 Settings:**
+• Most pros use 200-300 eDPI
+• Raw Input: 1
+• Mouse Acceleration: 0
+
+**Important:** Consistency > Perfect number. Find what works and stick with it!",both,0.9,"sensitivity,settings,mouse"
+aim_training,aim_routines,"practice,routine,warmup,aimlab,kovaaks","best aim training routine,how to warm up,aim practice schedule","**Daily Aim Training Routine:**
+
+**Warm-up (10-15 minutes):**
+• 5 min: Range/DM for muscle memory
+• 5 min: Aim trainer (Gridshot/1wall6targets)
+• 5 min: Movement + shooting practice
+
+**Aim Lab Scenarios:**
+• Gridshot Ultimate (precision)
+• 1wall6targets TE (tracking)
+• Microshot Speed (flicking)
+• Strafeshot Ultimate (movement)
+
+**In-Game Practice:**
+• 10-15 min Deathmatch before ranked
+• Focus on crosshair placement, not frags
+• Practice counter-strafing while shooting
+
+**Weekly Focus:**
+• Monday/Wednesday/Friday: Precision
+• Tuesday/Thursday: Tracking
+• Weekend: In-game application
+
+**Progress Tracking:**
+• Record scores weekly
+• Focus on consistency over peak scores",both,0.92,"practice,routine,training"
+game_mechanics,economy,"economy,money,buy,save,force","how to manage economy,when to save money,buy round strategy","**Economy Management Guide:**
+
+**Valorant Economy:**
+• **Full Buy:** 3900+ credits (Vandal/Phantom + armor)
+• **Light Buy:** 2500-3900 credits (Spectre/Guardian)
+• **Save Round:** <2500 credits (Classic/Ghost)
+
+**Buy Round Rules:**
+• Round 2: Light buy if won pistol, save if lost
+• Never force buy 2 rounds in a row
+• Coordinate team buys (all buy or all save)
+• Consider enemy economy when deciding
+
+**CS2 Economy:**
+• **Full Buy:** $4000+ (AK/M4 + armor + utility)
+• **Force Buy:** $2000-4000 (SMG/Scout + armor)
+• **Eco Round:** <$2000 (pistol + minimal utility)
+
+**Key Principles:**
+• Save together, buy together
+• Consider loss bonus accumulation
+• Buy utility for teammates if needed
+• Plan 2-3 rounds ahead
+
+**Common Mistakes:**
+• Force buying after losing pistol
+• Not coordinating with team
+• Buying when team is saving",both,0.88,"economy,strategy,teamwork"
+agent_selection,valorant_agents,"agent,character,duelist,controller,initiator,sentinel","which agent should I play,best agents for beginners,agent selection tips","**Agent Selection Guide:**
+
+**For Beginners:**
+• **Sage:** Easy to learn, team utility, forgiving
+• **Omen:** Versatile smokes, self-sufficient
+• **Phoenix:** Self-heal, straightforward abilities
+• **Brimstone:** Simple smokes, team support
+
+**By Role:**
+
+**Duelists (Entry Fraggers):**
+• Jett: High mobility, aggressive plays
+• Reyna: Self-sufficient, aim-dependent
+• Raze: Area denial, explosive damage
+• Phoenix: Self-sustain, flash support
+
+**Controllers (Smoke Support):**
+• Omen: Versatile, global presence
+• Brimstone: Precise smokes, team buffs
+• Astra: Complex but powerful map control
+• Viper: Area denial, post-plant strength
+
+**Initiators (Info Gathering):**
+• Sova: Drone recon, lineups required
+• Breach: Team flash support, site execution
+• Skye: Flexible utility, healing support
+• KAY/O: Anti-ability, team support
+
+**Sentinels (Site Anchors):**
+• Sage: Healing, resurrection, wall control
+• Cypher: Information gathering, site hold
+• Killjoy: Area denial, post-plant setups
+• Chamber: Aggressive anchor, OP support
+
+**Selection Tips:**
+• Learn one agent per role initially
+• Consider team composition
+• Play to your strengths (aim vs. utility)
+• Communicate with team during selection",valorant,0.9,"agents,roles,selection"
+map_strategy,valorant_maps,"map,ascent,bind,haven,split,breeze,icebox,fracture,pearl,lotus","ascent strategy,bind tips,haven guide,map callouts","**Map-Specific Strategies:**
+
+**Ascent:**
+• **Attack:** Default to mid control, A main splits
+• **Defense:** Stack A site, rotate through CT
+• **Key Areas:** Mid control crucial for rotations
+• **Common Strats:** A main + A short execute, B main rush
+
+**Bind:**
+• **Attack:** Teleporter plays, hookah control
+• **Defense:** Stack one site, quick rotates via teleporter
+• **Key Areas:** Hookah/short control for A site
+• **Common Strats:** A short + A long execute, B long rush
+
+**Haven:**
+• **Attack:** Three-site advantage, spread utility
+• **Defense:** Play retake-heavy, don't overcommit
+• **Key Areas:** Mid control for rotations
+• **Common Strats:** A long + A short, C long rush
+
+**Split:**
+• **Attack:** Mid control essential, ramp plays
+• **Defense:** Stack sites, use ropes for rotations
+• **Key Areas:** Mid control, ramp area
+• **Common Strats:** A ramp + A main, B main rush
+
+**General Map Tips:**
+• Learn common angles and pre-aims
+• Understand rotation timings
+• Practice utility lineups for each map
+• Know callout names for communication
+• Study pro team strategies and adaptations",valorant,0.85,"maps,strategy,callouts"
+mental_game,tilt_management,"tilt,tilting,mental,mindset,toxic,rage","how to avoid tilting,mental game tips,dealing with toxic players","**Anti-Tilt Strategies:**
+
+**Immediate Actions:**
+• Take deep breaths between rounds
+• Mute toxic players instantly
+• Focus on your own gameplay, not teammates
+• Take breaks after 2 consecutive losses
+
+**Mindset Shifts:**
+• Focus on improvement, not rank
+• Every death is a learning opportunity
+• Bad games happen to everyone, even pros
+• Your rank reflects long-term performance
+
+**Pre-Game Preparation:**
+• Warm up properly to build confidence
+• Set realistic goals for the session
+• Stay hydrated and well-rested
+• Have a positive mental routine
+
+**During Difficult Games:**
+• Communicate positively with team
+• Focus on fundamentals (crosshair, positioning)
+• Don't blame teammates or make excuses
+• Look for small wins and improvements
+
+**Post-Game Recovery:**
+• Review demos to learn from mistakes
+• Take breaks between ranked games
+• Do aim training to rebuild confidence
+• Remember why you enjoy the game
+
+**Long-term Mental Health:**
+• Set daily/weekly playtime limits
+• Have other hobbies outside gaming
+• Maintain social connections
+• Consider coaching if consistently struggling
+
+**Red Flags to Stop Playing:**
+• Feeling angry or frustrated
+• Blaming teammates consistently
+• Not enjoying the game
+• Physical tension or stress",both,0.93,"mental,tilt,mindset,health"
+hardware_setup,gaming_setup,"setup,hardware,monitor,mouse,keyboard,headset","best gaming setup,hardware recommendations,monitor settings","**Gaming Hardware Recommendations:**
+
+**Monitor:**
+• **Size:** 24-27 inches for competitive
+• **Resolution:** 1920x1080 (1080p) preferred
+• **Refresh Rate:** 144Hz minimum, 240Hz+ ideal
+• **Panel Type:** TN or IPS for low input lag
+• **Response Time:** 1ms GTG or faster
+
+**Mouse:**
+• **Sensor:** Optical sensor (PMW3360, HERO, etc.)
+• **Weight:** 60-80g for FPS games
+• **Shape:** Ergonomic fit for your hand size
+• **DPI:** 400-1600 DPI range sufficient
+• **Popular Models:** Logitech G Pro X, Razer Viper, Zowie EC2
+
+**Keyboard:**
+• **Switches:** Mechanical (Cherry MX Red/Brown)
+• **Form Factor:** TKL or 60% for more mouse space
+• **Features:** N-key rollover, low input lag
+• **Popular Models:** Logitech G Pro X, SteelSeries Apex Pro
+
+**Headset/Audio:**
+• **Type:** Open-back headphones preferred
+• **Drivers:** 40-50mm dynamic drivers
+• **Impedance:** 32-80 ohms for easy driving
+• **Microphone:** Detachable or separate mic
+• **Popular Models:** SteelSeries Arctis, HyperX Cloud
+
+**Mousepad:**
+• **Size:** Large (450x400mm minimum)
+• **Surface:** Cloth for control, hard for speed
+• **Thickness:** 3-4mm for consistency
+• **Popular Models:** SteelSeries QcK, Artisan Zero
+
+**Setup Ergonomics:**
+• Monitor at eye level
+• Elbows at 90-degree angle
+• Feet flat on floor
+• Good lighting to reduce eye strain",both,0.87,"hardware,setup,peripherals"
+settings_optimization,game_settings,"settings,fps,graphics,video,audio,config","best game settings,fps optimization,video settings guide","**Optimal Game Settings:**
+
+**Valorant Video Settings:**
+• **Resolution:** Native (1920x1080)
+• **Display Mode:** Fullscreen
+• **Material Quality:** Medium
+• **Texture Quality:** Medium
+• **Detail Quality:** Low
+• **UI Quality:** Medium
+• **Vignette:** Off
+• **VSync:** Off
+• **Anti-Aliasing:** MSAA 4x
+• **Anisotropic Filtering:** 4x
+• **Improve Clarity:** On
+• **Experimental Sharpening:** On
+
+**CS2 Video Settings:**
+• **Resolution:** Native (1920x1080)
+• **Display Mode:** Fullscreen
+• **Global Shadow Quality:** Medium
+• **Model/Texture Detail:** Medium
+• **Shader Detail:** Low
+• **Particle Detail:** Low
+• **Ambient Occlusion:** Disabled
+• **High Dynamic Range:** Performance
+• **FidelityFX Super Resolution:** Disabled
+• **NVIDIA Reflex Low Latency:** Enabled
+
+**Audio Settings (Both Games):**
+• **Master Volume:** 50-70%
+• **SFX Volume:** 100%
+• **Music Volume:** 10-20%
+• **Voice Chat Volume:** 70-80%
+• **HRTF:** Enabled (if available)
+
+**Windows Optimization:**
+• Game Mode: Enabled
+• Hardware Accelerated GPU Scheduling: Enabled
+• High Performance Power Plan
+• Disable Windows Game Bar
+• Set game priority to High in Task Manager
+
+**NVIDIA Control Panel:**
+• Power Management: Prefer Maximum Performance
+• Low Latency Mode: Ultra
+• Vertical Sync: Off
+• Texture Filtering Quality: Performance",both,0.89,"settings,optimization,performance"
+photo_analysis,gaming_screenshots,"screenshot,gameplay,scoreboard,stats,performance","analyze my gameplay screenshot,what can you tell from this image,review my game stats","**Gaming Screenshot Analysis Framework:**
+
+**Scoreboard Analysis:**
+• **K/D Ratio:** Aim for 1.0+ consistently
+• **ADR (Average Damage per Round):** 150+ is solid
+• **KAST (Kill/Assist/Survive/Trade):** 70%+ target
+• **First Kills:** Indicates entry fragging success
+• **Clutch Success:** Shows composure under pressure
+
+**Performance Indicators:**
+• **Consistency:** Look for stable round-to-round performance
+• **Impact Frags:** Kills that win rounds vs. exit frags
+• **Economy Efficiency:** Damage per dollar spent
+• **Utility Usage:** Assists indicate good teamplay
+• **Positioning:** Deaths in good vs. bad positions
+
+**Map Control Analysis:**
+• **Territory Control:** Areas dominated by your team
+• **Rotation Timing:** Speed of site switches
+• **Default Setups:** Standard positioning effectiveness
+• **Retake Success:** Ability to reclaim sites
+
+**Team Coordination:**
+• **Trade Kills:** Team following up on entries
+• **Utility Combos:** Coordinated ability usage
+• **Communication:** Callout accuracy and timing
+• **Role Fulfillment:** Playing assigned positions
+
+**Areas for Improvement:**
+• **Aim Consistency:** Headshot percentage trends
+• **Decision Making:** Positioning choices
+• **Game Sense:** Reading opponent patterns
+• **Mechanical Skills:** Movement and shooting
+
+**Screenshot Quality Tips:**
+• Include full scoreboard for context
+• Show minimap for positioning analysis
+• Capture end-of-round stats
+• Include economy information
+• Show utility usage if possible",both,0.91,"analysis,screenshots,performance"
+photo_analysis,hardware_analysis,"setup,desk,monitor,peripherals,ergonomics,lighting","analyze my gaming setup,review my hardware,setup recommendations","**Gaming Setup Analysis Framework:**
+
+**Monitor Assessment:**
+• **Size and Position:** 24-27" at arm's length, eye level
+• **Angle:** Slight downward tilt (10-20 degrees)
+• **Distance:** 60-70cm from eyes
+• **Lighting:** No glare or reflections
+• **Multiple Monitors:** Primary centered, secondary angled
+
+**Peripheral Evaluation:**
+• **Mouse Space:** 30cm+ horizontal movement
+• **Keyboard Position:** Elbows at 90 degrees
+• **Mousepad Size:** Large enough for full sensitivity range
+• **Cable Management:** Clean, no interference
+• **Accessibility:** All controls within easy reach
+
+**Ergonomic Analysis:**
+• **Chair Height:** Feet flat, thighs parallel to floor
+• **Back Support:** Lumbar support, upright posture
+• **Arm Position:** Relaxed shoulders, supported forearms
+• **Neck Position:** Neutral, not craned forward
+• **Leg Room:** Adequate space, no pressure points
+
+**Lighting Assessment:**
+• **Ambient Lighting:** Soft, even illumination
+• **Screen Glare:** Minimal reflections
+• **Eye Strain Prevention:** Bias lighting behind monitor
+• **Color Temperature:** Warm lighting for evening sessions
+• **Brightness Balance:** Monitor not brightest light source
+
+**Environmental Factors:**
+• **Temperature:** Cool, well-ventilated
+• **Noise Levels:** Minimal distractions
+• **Space Organization:** Clean, clutter-free
+• **Ventilation:** Good airflow for equipment cooling
+• **Accessibility:** Easy access to all components
+
+**Improvement Recommendations:**
+• **Monitor Arm:** Better positioning flexibility
+• **Footrest:** If chair too high
+• **Wrist Rest:** For extended sessions
+• **Blue Light Filter:** Eye strain reduction
+• **Cable Management:** Cleaner appearance and function
+
+**Red Flags:**
+• Monitor too high/low causing neck strain
+• Insufficient mouse space
+• Poor lighting causing eye strain
+• Cluttered workspace affecting focus
+• Uncomfortable seating position",both,0.88,"setup,hardware,ergonomics"
+photo_analysis,ui_settings,"interface,hud,crosshair,minimap,settings,ui","analyze my game UI,crosshair settings,HUD optimization","**UI/Settings Analysis Framework:**
+
+**Crosshair Analysis:**
+• **Visibility:** High contrast against backgrounds
+• **Size:** Not too large to obscure targets
+• **Thickness:** 1-2 pixels for precision
+• **Gap:** Small gap for precise aiming
+• **Color:** Cyan, green, or white for visibility
+• **Opacity:** 100% for maximum visibility
+
+**HUD Optimization:**
+• **Minimap Size:** Large enough to read quickly
+• **Health/Armor:** Clearly visible, not obstructed
+• **Ability Cooldowns:** Easy to track at glance
+• **Scoreboard:** Accessible but not intrusive
+• **Chat Position:** Visible but not distracting
+
+**Valorant UI Settings:**
+• **Crosshair:** Static, no movement error
+• **Minimap Zoom:** 0.9-1.1 for optimal view
+• **HUD Scale:** 100% unless vision issues
+• **Show Spectator Count:** Personal preference
+• **Team ID:** Always show for clarity
+
+**CS2 UI Settings:**
+• **Crosshair Style:** Classic static (style 4)
+• **Radar Scale:** 0.7 for good overview
+• **HUD Scale:** 0.85-1.0 based on preference
+• **Net Graph:** Enabled for performance monitoring
+• **Console:** Enabled for advanced settings
+
+**Visibility Enhancements:**
+• **Enemy Highlight:** Maximum contrast
+• **Blood Effects:** Minimal for clarity
+• **Particle Effects:** Reduced for performance
+• **Texture Quality:** Balance between quality and FPS
+• **Anti-Aliasing:** Smooth edges without FPS loss
+
+**Accessibility Features:**
+• **Colorblind Support:** Appropriate color schemes
+• **Text Size:** Readable at gaming distance
+• **Audio Cues:** Visual indicators for sound
+• **Subtitle Options:** For important audio
+• **High Contrast Mode:** If needed for visibility
+
+**Performance vs. Quality:**
+• **FPS Priority:** Lower settings for higher framerate
+• **Input Lag:** Minimize processing delays
+• **Consistency:** Stable performance over peak quality
+• **Competitive Advantage:** Visibility over aesthetics
+• **Hardware Matching:** Settings appropriate for system",both,0.86,"ui,settings,interface"
+troubleshooting,technical_issues,"lag,fps,stuttering,crash,connection,ping","game is lagging,low fps issues,connection problems","**Technical Troubleshooting Guide:**
+
+**FPS Issues:**
+• **Lower Graphics Settings:** Reduce quality for performance
+• **Update GPU Drivers:** Latest drivers for optimization
+• **Close Background Apps:** Free up system resources
+• **Check CPU/GPU Usage:** Identify bottlenecks
+• **Verify Game Files:** Repair corrupted files
+• **Disable Game Bar:** Windows gaming features off
+
+**Connection/Ping Issues:**
+• **Wired Connection:** Ethernet over WiFi
+• **Close Bandwidth Apps:** Streaming, downloads
+• **Router Restart:** Reset network equipment
+• **Server Selection:** Choose closest servers
+• **Port Forwarding:** Open required game ports
+• **ISP Issues:** Contact provider if persistent
+
+**Stuttering/Hitching:**
+• **RAM Usage:** Close unnecessary programs
+• **Storage Space:** Ensure adequate free space
+• **Background Updates:** Pause automatic updates
+• **Thermal Throttling:** Check CPU/GPU temperatures
+• **Power Settings:** High performance mode
+• **Game Mode:** Enable Windows Game Mode
+
+**Crash Issues:**
+• **Update Drivers:** GPU, audio, chipset drivers
+• **Verify Game Files:** Steam/Riot client verification
+• **Disable Overlays:** Discord, Steam, NVIDIA
+• **Run as Administrator:** Elevated permissions
+• **Antivirus Exclusions:** Add game folders
+• **Clean Boot:** Minimal startup programs
+
+**Audio Issues:**
+• **Default Device:** Set correct audio output
+• **Exclusive Mode:** Disable for compatibility
+• **Sample Rate:** Match game requirements
+• **Driver Updates:** Audio driver updates
+• **Windows Audio:** Restart audio services
+• **Headset Firmware:** Update if available
+
+**Input Lag:**
+• **Raw Input:** Enable in game settings
+• **Mouse Acceleration:** Disable system acceleration
+• **Polling Rate:** 1000Hz for gaming mice
+• **USB Ports:** Use USB 3.0 ports
+• **Power Management:** Disable USB power saving
+• **Exclusive Fullscreen:** Better than borderless",both,0.84,"troubleshooting,technical,performance"
+strategy,team_coordination,"team,communication,callouts,strategy,coordination","team communication tips,how to make callouts,team strategy","**Team Communication Guide:**
+
+**Effective Callouts:**
+• **Be Specific:** ""One A site, behind default box""
+• **Be Concise:** Short, clear information
+• **Use Map Callouts:** Learn standard location names
+• **Include Numbers:** ""Two B main, one watching flank""
+• **Health Info:** ""Jett low health A site""
+• **Utility Status:** ""Sage has wall and heal available""
+
+**Communication Priorities:**
+1. **Enemy Positions:** Immediate threat information
+2. **Utility Usage:** Team coordination needs
+3. **Strategy Calls:** Mid-round adjustments
+4. **Economic Info:** Buy/save decisions
+5. **Encouragement:** Team morale support
+
+**Valorant Team Roles:**
+• **IGL (In-Game Leader):** Makes strategy calls
+• **Entry Fragger:** First into sites, needs support
+• **Support:** Follows up on entries, trades kills
+• **Anchor:** Holds sites, provides information
+• **Lurker:** Flanks, gathers information, late rotates
+
+**CS2 Team Roles:**
+• **AWPer:** Primary sniper, holds long angles
+• **Entry Fragger:** Opens sites, creates space
+• **Support:** Utility player, trades kills
+• **IGL:** Strategy caller, mid-round leader
+• **Lurker:** Information gatherer, flanker
+
+**Strategy Fundamentals:**
+• **Default Setup:** Standard positioning to start rounds
+• **Execute Strategies:** Coordinated site takes
+• **Anti-Eco Rounds:** Playing against low economy
+• **Retake Strategies:** Coordinated site reclaims
+• **Map Control:** Territory acquisition and holding
+
+**Common Mistakes:**
+• **Over-communicating:** Too much unnecessary info
+• **Negative Comms:** Blaming or tilting teammates
+• **Late Callouts:** Information after it's useful
+• **Unclear Callouts:** Vague or confusing information
+• **Not Listening:** Missing important team information
+
+**Improvement Tips:**
+• **Practice Callouts:** Learn map locations
+• **Stay Positive:** Encourage team even when losing
+• **Listen Actively:** Process teammate information
+• **Time Callouts:** Give info when it's most useful
+• **Review Demos:** Analyze team communication patterns",both,0.87,"teamwork,communication,strategy"
